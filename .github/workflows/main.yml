@@ -1,5 +1,4 @@
 name: CI-CD
-
 # Dispara o workflow em push na branch "main", merge na branch "main" ou manualmente
 on:
   workflow_dispatch:
@@ -7,29 +6,31 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
-
 jobs:
   # Job CI: Compilação e testes do projeto
   CI:
     runs-on: ubuntu-latest
-
     steps:
-      # Passo 1: Listar arquivos
+      # Passo 1: Checkout do código
+      - name: Checkout do código
+        uses: actions/checkout@v3
+        
+      # Passo 2: Listar arquivos
       - name: Listar arquivos
         run: ls -la
-
-      # Passo 2: Autenticação no Docker Hub
+        
+      # Passo 3: Autenticação no Docker Hub
       - name: Autenticação no Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME_DEVELOP }}
           password: ${{ secrets.DOCKERHUB_PASSWORD_DEVELOP }}
-
-      # Passo 3: Build e Push da Imagem no Docker Hub
+          
+      # Passo 4: Build e Push da Imagem no Docker Hub
       - name: Build e Push da Imagem no Docker Hub
         uses: docker/build-push-action@v2
         with:
-          context: ./
+          context: .
           file: ./Dockerfile
           push: true
           tags: |
