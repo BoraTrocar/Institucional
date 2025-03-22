@@ -28,6 +28,6 @@ export default defineConfig({
   },
   server: {
     https: useHttps(),
-    port: 445,
+    port: 80,
   },
 });

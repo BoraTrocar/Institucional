@@ -34,7 +34,7 @@ COPY --from=build /app/dist /app/dist
 RUN npm install -g serve
 
 # Expor a porta 445
-EXPOSE 445
+EXPOSE 80
 
 # Rodar o servidor de arquivos estáticos
-CMD ["serve", "-s", "dist", "-l", "445"]
+CMD ["serve", "-s", "dist", "-l", "80"]
