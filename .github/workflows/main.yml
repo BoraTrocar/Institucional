@@ -14,7 +14,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-     
+       - name: listar arquivos
+          run: ls -la
+
       # Passo 6: Autenticação no Docker Hub
       - name: Autenticação no Docker Hub
         uses: docker/login-action@v3.2.0
