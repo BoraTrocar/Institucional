@@ -33,8 +33,8 @@ COPY --from=build /app/dist /app/dist
 # Instalar o servidor para servir os arquivos estáticos
 RUN npm install -g serve
 
-# Expor a porta 445
-EXPOSE 80
+# Expor a porta 444
+EXPOSE 444
 
 # Rodar o servidor de arquivos estáticos
-CMD ["serve", "-s", "dist", "-l", "80"]
+CMD ["serve", "-s", "dist", "-l", "444"]
