@@ -1,22 +1,29 @@
 # Etapa 1: Build do projeto usando Node.js
 FROM node:18 AS build
-
 # Definir o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copiar os arquivos de dependências e instalar
+# Copiar os arquivos de dependências
 COPY package*.json ./
-RUN npm install
+
+# Instalar dependências com CI para uma instalação limpa e mais rápida
+RUN npm ci
 
 # Copiar o código-fonte para o container
+# (Esse comando copia TODOS os arquivos, incluindo arquivos que o vite.config.ts possa precisar)
 COPY . .
 
-# Rodar o build do Vite (versão de produção)
-RUN npm run build
+# Listar arquivos para debug (opcional)
+RUN ls -la
 
-# Etapa 2: Rodar o servidor do Vite
-FROM node:18 AS production
+# Verificar o conteúdo do vite.config.ts para debug (opcional)
+RUN cat vite.config.ts || echo "vite.config.ts não encontrado"
 
+# Rodar o build do Vite com mais logs para debug
+RUN npm run build -- --debug
+
+# Etapa 2: Rodar o servidor para os arquivos estáticos
+FROM node:18-alpine AS production
 # Definir o diretório de trabalho dentro do container
 WORKDIR /app
 
@@ -26,7 +33,7 @@ COPY --from=build /app/dist /app/dist
 # Instalar o servidor para servir os arquivos estáticos
 RUN npm install -g serve
 
-# Expor a porta 5000 (ou qualquer porta que você queira usar)
+# Expor a porta 445
 EXPOSE 445
 
 # Rodar o servidor de arquivos estáticos
