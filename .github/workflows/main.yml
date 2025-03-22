@@ -14,19 +14,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-       - name: listar arquivos
-          run: ls -la
+      # Passo 1: Listar arquivos
+      - name: Listar arquivos
+        run: ls -la
 
-      # Passo 6: Autenticação no Docker Hub
+      # Passo 2: Autenticação no Docker Hub
       - name: Autenticação no Docker Hub
-        uses: docker/login-action@v3.2.0
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME_DEVELOP }}
           password: ${{ secrets.DOCKERHUB_PASSWORD_DEVELOP }}
 
-      # Passo 7: Build e Push da Imagem no Docker Hub
+      # Passo 3: Build e Push da Imagem no Docker Hub
       - name: Build e Push da Imagem no Docker Hub
-        uses: docker/build-push-action@v5.3.0
+        uses: docker/build-push-action@v2
         with:
           context: ./
           file: ./Dockerfile
