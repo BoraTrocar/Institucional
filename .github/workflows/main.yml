@@ -1,0 +1,54 @@
+name: CI-CD
+
+# Dispara o workflow em push na branch "main", merge na branch "main" ou manualmente
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  # Job CI: Compilação e testes do projeto
+  CI:
+    runs-on: ubuntu-latest
+
+    steps:
+     
+      # Passo 6: Autenticação no Docker Hub
+      - name: Autenticação no Docker Hub
+        uses: docker/login-action@v3.2.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME_DEVELOP }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD_DEVELOP }}
+
+      # Passo 7: Build e Push da Imagem no Docker Hub
+      - name: Build e Push da Imagem no Docker Hub
+        uses: docker/build-push-action@v5.3.0
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: |
+            flaviooo/boratrocarestatico:v1.${{ github.run_number }} 
+            flaviooo/boratrocarestatico:latest
+
+  # Job CD: Implantação do projeto
+  CD:
+    runs-on: ubuntu-latest
+    needs: [CI]
+
+    steps:
+      # Passo 1: Acessar a VPS via SSH e faz o deploy da aplicação
+      - name: Acessar a VPS via SSH e faz o deploy da aplicação
+        uses: appleboy/ssh-action@v0.1.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            cd ~/Docker
+            docker-compose pull boratrocarestatico
+            docker-compose up -d boratrocarestatico
+            docker image prune -f

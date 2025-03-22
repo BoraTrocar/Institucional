@@ -27,7 +27,7 @@ COPY --from=build /app/dist /app/dist
 RUN npm install -g serve
 
 # Expor a porta 5000 (ou qualquer porta que você queira usar)
-EXPOSE 443
+EXPOSE 445
 
 # Rodar o servidor de arquivos estáticos
-CMD ["serve", "-s", "dist", "-l", "443"]
+CMD ["serve", "-s", "dist", "-l", "445"]
