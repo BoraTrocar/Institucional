@@ -2,6 +2,7 @@ import React from 'react';
 import { BookOpen } from 'lucide-react';
 
 const Hero = () => {
+  const mensagem = `troque experiências ${process.env.REACT_APP_EXIBAAQUI}`;
   return (
     <section id="inicio" className="relative overflow-hidden bg-pearl-50 py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -9,7 +10,7 @@ const Hero = () => {
           <div className="md:w-1/2 animate-slide-up">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
               Compartilhe histórias, <br />
-              <span className="text-primary-300">troque experiências</span>
+              <span className="text-primary-300">{mensagem}</span>
             </h1>
             <p className="text-lg text-gray-600 mb-8">
               Conectamos amantes da leitura para trocar livros de forma simples e sustentável.
