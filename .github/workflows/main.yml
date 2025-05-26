@@ -44,9 +44,9 @@ jobs:
 
     steps:
       # Passo 1: fazer deploy direto na VM
-        - name: Fazer deploy da aplicação localmente (self-hosted runner)
-          run: |
-            cd ~/Docker
-            docker compose pull boratrocarestatico
-            docker compose up -d boratrocarestatico
-            docker image prune -f
+    - name: Fazer deploy da aplicação localmente (self-hosted runner)
+      run: |
+        cd ~/Docker
+        docker compose pull boratrocarestatico
+        docker compose up -d boratrocarestatico
+        docker image prune -f
