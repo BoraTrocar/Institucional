@@ -47,6 +47,6 @@ jobs:
     - name: Fazer deploy da aplicação localmente (self-hosted runner)
       run: |
         cd ~/Docker
-        docker compose pull boratrocarestatico
-        docker compose up -d boratrocarestatico
+        docker-compose pull boratrocarestatico
+        docker-compose up -d boratrocarestatico
         docker image prune -f
