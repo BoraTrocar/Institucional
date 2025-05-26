@@ -38,47 +38,7 @@ jobs:
             flaviooo/boratrocarestatico:latest
 
   # Job CD: Implantação do projeto
- name: CI-CD
-# Dispara o workflow em push na branch "main", merge na branch "main" ou manualmente
-on:
-  workflow_dispatch:
-  push:
-    branches: ["azure"]
-  pull_request:
-    branches: ["azure"]
-jobs:
-  # Job CI: Compilação e testes do projeto
-  CI:
-    runs-on: ubuntu-latest
-    steps:
-      # Passo 1: Checkout do código
-      - name: Checkout do código
-        uses: actions/checkout@v3
-        
-      # Passo 2: Listar arquivos
-      - name: Listar arquivos
-        run: ls -la
-        
-      # Passo 3: Autenticação no Docker Hub
-      - name: Autenticação no Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME_DEVELOP }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD_DEVELOP }}
-          
-      # Passo 4: Build e Push da Imagem no Docker Hub
-      - name: Build e Push da Imagem no Docker Hub
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: |
-            flaviooo/boratrocarestatico:v1.${{ github.run_number }} 
-            flaviooo/boratrocarestatico:latest
-
-  # Job CD: Implantação do projeto
-   CD-vm1:
+  CD-vm1:
     runs-on: [self-hosted, vm1]
     needs: [CI]
     steps:
@@ -99,4 +59,3 @@ jobs:
           sudo docker compose pull boratrocarestatico
           sudo docker compose up -d boratrocarestatico
           sudo docker image prune -f
-
