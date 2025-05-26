@@ -39,7 +39,7 @@ jobs:
 
   # Job CD: Implantação do projeto
   CD:
-    runs-on: self-hosted
+    runs-on: [self-hosted, inst]
     needs: [CI]
 
     steps:
