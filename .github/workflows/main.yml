@@ -3,9 +3,9 @@ name: CI-CD
 on:
   workflow_dispatch:
   push:
-    branches: ["main"]
+    branches: ["azure"]
   pull_request:
-    branches: ["main"]
+    branches: ["azure"]
 jobs:
   # Job CI: Compilação e testes do projeto
   CI:
@@ -39,19 +39,13 @@ jobs:
 
   # Job CD: Implantação do projeto
   CD:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [CI]
 
     steps:
-      # Passo 1: Acessar a VPS via SSH e faz o deploy da aplicação
-      - name: Acessar a VPS via SSH e faz o deploy da aplicação
-        uses: appleboy/ssh-action@v0.1.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT }}
-          script: |
+      # Passo 1: fazer deploy direto na VM
+        - name: Fazer deploy da aplicação localmente (self-hosted runner)
+          run: |
             cd ~/Docker
             docker-compose pull boratrocarestatico
             docker-compose up -d boratrocarestatico
