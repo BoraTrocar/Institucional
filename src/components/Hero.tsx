@@ -2,7 +2,7 @@ import React from 'react';
 import { BookOpen } from 'lucide-react';
 
 const Hero = () => {
-  const mensagem = `troque experiências ${process.env.REACT_APP_EXIBAAQUI}`;
+  const mensagem = `troque experiências legais ${process.env.REACT_APP_EXIBAAQUI}`;
   return (
     <section id="inicio" className="relative overflow-hidden bg-pearl-50 py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
